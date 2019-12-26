@@ -7,9 +7,10 @@ import java.awt.*;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException, FontFormatException {
+    public static void main(String[] args) throws InterruptedException {
         MainFrame mainFrame = new MainFrame();
         mainFrame.pack();
+        mainFrame.run();
     }
 }
 

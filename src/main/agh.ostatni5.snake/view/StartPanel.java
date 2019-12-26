@@ -29,7 +29,7 @@ public class StartPanel extends JPanel {
         jButton.addActionListener(actionEvent -> {
             setVisible(false);
             getValues();
-            mainFrame.startSimulations(options);
+
         });
     }
 

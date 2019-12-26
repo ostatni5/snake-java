@@ -41,6 +41,9 @@ public class Rectangle {
     {
         return corners[0].avg(corners[2]);
     }
+    public int getBiggerDimension(){
+        return Math.max(height,width);
+    }
 }
 //3--2
 //|  |

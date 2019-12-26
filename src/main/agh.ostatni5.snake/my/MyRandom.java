@@ -3,6 +3,7 @@ package agh.ostatni5.snake.my;
 
 import agh.ostatni5.snake.core.Vector2d;
 
+import java.awt.*;
 import java.util.Random;
 
 public class MyRandom extends Random {
@@ -16,5 +17,9 @@ public class MyRandom extends Random {
         Vector2d randPos = new Vector2d(x, y);
         randPos = randPos.add(lowerV);
         return randPos;
+    }
+    public Color getRandomColor()
+    {
+        return  new Color(this.nextInt(255),this.nextInt(255),this.nextInt(255));
     }
 }
