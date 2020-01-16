@@ -17,13 +17,15 @@ public class StatsCanvas extends JPanel {
     private int lineHeight = 25;
     private float fontSize = lineHeight-4;
     private Snake snake;
+    private MainFrame mainFrame;
 
-    public StatsCanvas(WorldMap worldMap, GameCanvas gameCanvas) {
+    public StatsCanvas(WorldMap worldMap, GameCanvas gameCanvas, MainFrame mainFrame) {
         this.worldMap = worldMap;
         this.gameCanvas = gameCanvas;
         width = gameCanvas.getCanvasSize();
         percentPos = new MyPercentPosition(width, height);
         snake = worldMap.getSnake();
+        this.mainFrame=mainFrame;
     }
 
     @Override
@@ -55,6 +57,7 @@ public class StatsCanvas extends JPanel {
         g.drawString("Score", percentPos.getWidth(2), lineHeight * 2 + percentPos.getHeight(5));
         g.setColor(Color.cyan);
         g.drawString(snake.getScore()+"", percentPos.getWidth(25), lineHeight * 2 + percentPos.getHeight(5));
+        mainFrame.updateBestScore(snake.getScore());
     }
 
     private void paintBestScore(Graphics g) {
@@ -62,7 +65,7 @@ public class StatsCanvas extends JPanel {
         g.setColor(Color.white);
         g.drawString("Best Score", percentPos.getWidth(2), lineHeight * 3 + percentPos.getHeight(5));
         g.setColor(Color.red);
-        g.drawString("100000", percentPos.getWidth(25), lineHeight * 3 + percentPos.getHeight(5));
+        g.drawString(mainFrame.bestScore+"", percentPos.getWidth(25), lineHeight * 3 + percentPos.getHeight(5));
     }
 
     private void paintHelp(Graphics g) {
@@ -70,9 +73,11 @@ public class StatsCanvas extends JPanel {
         g.setColor(Color.white);
         g.drawString("Movement", percentPos.getWidth(50), lineHeight * 1 + percentPos.getHeight(5));
         g.drawString("Pause", percentPos.getWidth(50), lineHeight * 2 + percentPos.getHeight(5));
+        g.drawString("Restart", percentPos.getWidth(50), lineHeight * 3 + percentPos.getHeight(5));
         g.setColor(Color.green);
         g.drawString("↑ → ↓ ←", percentPos.getWidth(70), lineHeight * 1 + percentPos.getHeight(5));
         g.drawString("P", percentPos.getWidth(70), lineHeight * 2 + percentPos.getHeight(5));
+        g.drawString("R", percentPos.getWidth(70), lineHeight * 3 + percentPos.getHeight(5));
 
 }
 

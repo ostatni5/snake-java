@@ -24,6 +24,7 @@ public class KeyMap extends HashMap<Integer, Boolean> {
     public void release(Integer integer) {
         replace(integer, false);
     }
+    public void reset(){lastDirection = null;}
 
     public Direction getLastDirection() {
         return lastDirection;

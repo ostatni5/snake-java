@@ -17,9 +17,10 @@ public class Snake {
     private int score = 0;
     private boolean alive = true;
 
-    Snake(WorldMap worldMap, Vector2d head, int length) {
+    Snake(WorldMap worldMap, Vector2d head, int length, String snakeName) {
         this.worldMap = worldMap;
         body = new Body(head, length);
+        name = snakeName;
     }
 
     public boolean isBodyAt(Vector2d vector2d) {

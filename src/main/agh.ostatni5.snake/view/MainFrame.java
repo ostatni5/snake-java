@@ -2,8 +2,6 @@ package agh.ostatni5.snake.view;
 
 
 import agh.ostatni5.snake.core.KeyMap;
-import agh.ostatni5.snake.core.Options;
-import agh.ostatni5.snake.core.Rotation;
 import agh.ostatni5.snake.core.WorldMap;
 
 import javax.swing.*;
@@ -11,7 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class MainFrame extends JFrame implements KeyListener {
-    private StartPanel startPanel;
+    private StartPanel startPanel = new StartPanel(this);
     private JButton clearButton;
     private KeyMap keyMap = new KeyMap();
     private WorldMap worldMap;
@@ -19,41 +17,74 @@ public class MainFrame extends JFrame implements KeyListener {
     private StatsCanvas statsCanvas;
     private boolean running = true;
     private boolean paused = false;
+    private Thread threadLoop;
+    public int bestScore = 0;
+    private boolean firstInit = true;
+    private String snakeName = "Mr Snake";
+    private boolean borderless = false;
 
     public MainFrame() throws InterruptedException {
         super("Life of moving snake");
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        init();
+        add(startPanel);
+        startInit();
         addKeyListener(this);
     }
 
-    private void init() {
-        worldMap = new WorldMap(40, 40, false, 5);
-        gameCanvas = new GameCanvas(worldMap);
-        worldMap.bindGameCanvas(gameCanvas);
-        add(gameCanvas);
-        statsCanvas = new StatsCanvas(worldMap, gameCanvas);
-        add(statsCanvas);
+    private void startInit() {
+        System.out.println("START INIT");
+        startPanel.setVisible(true);
+        if (!firstInit) {
+            gameCanvas.setVisible(false);
+            statsCanvas.setVisible(false);
+        }
+        pack();
 
     }
 
-    public void run() {
-        Thread threadLoop = new Thread(() -> {
+    private void init() {
+        System.out.println("INIT");
+        running = true;
+        worldMap = new WorldMap(40, 40, borderless, 5, snakeName);
+        gameCanvas = new GameCanvas(worldMap);
+        worldMap.bindGameCanvas(gameCanvas);
+        statsCanvas = new StatsCanvas(worldMap, gameCanvas, this);
+        add(gameCanvas);
+        add(statsCanvas);
+        pack();
+        if (firstInit)
+            run();
+        firstInit = false;
+        requestFocusInWindow();
+    }
+
+    private void run() {
+        System.out.println("RUN");
+        threadLoop = new Thread(() -> {
             while (running) {
                 if (!paused)
                     if (keyMap.getLastDirection() != null)
                         worldMap.next(keyMap.getLastDirection());
                 gameCanvas.repaint();
                 try {
-                    Thread.sleep(1000 / 10);
+                    Thread.sleep(1000 / 8);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         });
         threadLoop.start();
+    }
+
+    private void restart() {
+        paused = true;
+        keyMap.reset();
+        remove(gameCanvas);
+        remove(statsCanvas);
+        startInit();
+        paused = false;
     }
 
 
@@ -66,6 +97,9 @@ public class MainFrame extends JFrame implements KeyListener {
     public void keyPressed(KeyEvent keyEvent) {
         if (!paused)
             keyMap.press(keyEvent.getKeyCode());
+
+        if (keyEvent.getKeyCode() == KeyEvent.VK_R)
+            restart();
 
     }
 
@@ -80,5 +114,16 @@ public class MainFrame extends JFrame implements KeyListener {
     private void togglePause() {
         paused = !paused;
         gameCanvas.setPaused(paused);
+    }
+
+    public void updateBestScore(int score) {
+        bestScore = Math.max(bestScore, score);
+    }
+
+    public void afterConfiguration(String snakeName, boolean borderless) {
+        System.out.println("AFTER CONFIGURATION");
+        this.snakeName = snakeName;
+        this.borderless = borderless;
+        init();
     }
 }

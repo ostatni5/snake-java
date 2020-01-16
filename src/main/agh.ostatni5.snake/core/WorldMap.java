@@ -11,9 +11,9 @@ public class WorldMap {
     private Direction lastDirection = Direction.DOWN;
     private GameCanvas gameCanvas;
 
-    public WorldMap(int mapWidth, int mapHeight, boolean borderless, int initialLength) {
+    public WorldMap(int mapWidth, int mapHeight, boolean borderless, int initialLength, String snakeName) {
         rectangle = new Rectangle(mapWidth, mapHeight);
-        snake = new Snake(this, rectangle.getCenter(), initialLength);
+        snake = new Snake(this, rectangle.getCenter(), initialLength,snakeName);
         this.borderless = borderless;
         food = new Food(rectangle.randomIn());
     }
