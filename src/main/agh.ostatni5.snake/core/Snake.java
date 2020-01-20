@@ -102,5 +102,9 @@ public class Snake {
     public int getScore() {
         return score;
     }
+
+    public boolean isAlive() {
+        return alive;
+    }
 }
 

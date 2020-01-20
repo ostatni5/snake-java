@@ -10,14 +10,12 @@ import java.awt.event.KeyListener;
 
 public class MainFrame extends JFrame implements KeyListener {
     private StartPanel startPanel = new StartPanel(this);
-    private JButton clearButton;
     private KeyMap keyMap = new KeyMap();
     private WorldMap worldMap;
     private GameCanvas gameCanvas;
     private StatsCanvas statsCanvas;
     private boolean running = true;
     private boolean paused = false;
-    private Thread threadLoop;
     public int bestScore = 0;
     private boolean firstInit = true;
     private String snakeName = "Mr Snake";
@@ -62,7 +60,7 @@ public class MainFrame extends JFrame implements KeyListener {
 
     private void run() {
         System.out.println("RUN");
-        threadLoop = new Thread(() -> {
+        Thread threadLoop = new Thread(() -> {
             while (running) {
                 if (!paused)
                     if (keyMap.getLastDirection() != null)
@@ -95,7 +93,7 @@ public class MainFrame extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        if (!paused)
+        if (!paused )
             keyMap.press(keyEvent.getKeyCode());
 
         if (keyEvent.getKeyCode() == KeyEvent.VK_R)
@@ -105,7 +103,7 @@ public class MainFrame extends JFrame implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-        if (keyEvent.getKeyCode() == 80)
+        if (keyEvent.getKeyCode() == 80 && worldMap != null && worldMap.getSnake().isAlive())
             togglePause();
         keyMap.release(keyEvent.getKeyCode());
 
