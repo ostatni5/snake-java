@@ -1,11 +1,7 @@
 # snake-java
 Simple snake game written in Java.
 
-https://user-images.githubusercontent.com/26521377/167248889-577efacc-c2e7-48da-8418-83b6eb547406.mp4
-
+## Preview
+https://user-images.githubusercontent.com/26521377/167248966-6e4e8d99-d353-408c-8528-7ae8ebea156f.mp4
 
 by ostatni5
-
-
-
-
